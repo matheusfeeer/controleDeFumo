@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "996855985782",
+    "project_id": "app-fumo",
+    "storage_bucket": "app-fumo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996855985782:android:efa278c9541c292d3d1157",
+        "android_client_info": {
+          "package_name": "com.example.appfumante"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996855985782-8t2us04p9ncuj7f8v2bl2s84omviqnba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7VYJj6KvTXsdGuhmZeRfkyxEA50y4BEI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996855985782-8t2us04p9ncuj7f8v2bl2s84omviqnba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
