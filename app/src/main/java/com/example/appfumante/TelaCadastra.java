@@ -1,114 +1,88 @@
 package com.example.appfumante;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ActionCodeSettings;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 
 public class TelaCadastra extends AppCompatActivity {
-    EditText nome, cpf, cidade, email, senha, confirmaSenha;
-    String strNome, strCpf, strCidade, strEmail, strSenha, strConfirmaSenha;
-    public static int vape, pod, narguile, cigarro, cigarroEletronico, charuto;
+    FirebaseAuth auth;
+    EditText email, senha, confirmarSenha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_cadastra);
         getSupportActionBar().hide();
-        nome = findViewById(R.id.cadastroCampoNome);
-        cpf = findViewById(R.id.cadastroCampoCpf);
-        cidade = findViewById(R.id.cadastroCampoCidade);
-        email = findViewById(R.id.cadastroCampoEmail);
-        senha = findViewById(R.id.cadastroCampoSenha);
-        confirmaSenha = findViewById(R.id.cadastroConfirmaSenha);
+        auth = FirebaseAuth.getInstance();
+        email = findViewById(R.id.emailCadastro);
+        senha = findViewById(R.id.senhaCadastro);
+        confirmarSenha = findViewById(R.id.confirmarSenhaCadastro);
     }
-    public void verificacoesCadastro(View v){
-        strNome = nome.getText().toString();
-        strCpf = cpf.getText().toString();
-        strCidade = cidade.getText().toString();
-        strEmail = email.getText().toString();
-        strSenha = senha.getText().toString();
-        strConfirmaSenha = confirmaSenha.getText().toString();
-        vape = 0;
-        pod = 0;
-        narguile = 0;
-        cigarro = 0;
-        cigarroEletronico = 0;
-        charuto = 0;
-
-        if(!TextUtils.isEmpty(strNome) || !TextUtils.isEmpty(strCpf) // Verifica se está tudo preenchido
-                || !TextUtils.isEmpty(strCidade) || !TextUtils.isEmpty(strEmail)
-                || !TextUtils.isEmpty(strSenha) || !TextUtils.isEmpty(strConfirmaSenha)){
-            if (strSenha.equals(strConfirmaSenha)) { // Verifica se a confirmação de senha está correta
-                if(strCpf.length() == 11){ // Verifica se o tamanho do CPF está certo
-
-                    // Daqui pra baixo verifica se o usuário já existe
-                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Usuários");
-                    reference.addValueEventListener(new ValueEventListener(){
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot){
-                            for (DataSnapshot d : snapshot.getChildren()) {
-                                if (d.getValue(Usuarios.class).getCpf().equals(strCpf)){
-                                   toast("Usuário já cadastrado.");
-                                   break;
-                                } else{
-                                    Usuarios x = new Usuarios(strNome, strCpf, strCidade, strEmail, strSenha, strConfirmaSenha,
-                                            vape, pod, narguile, cigarro, cigarroEletronico, charuto);
-                                    x.salvar();
-                                    nome.setText(null);
-                                    cpf.setText(null);
-                                    cidade.setText(null);
-                                    email.setText(null);
-                                    senha.setText(null);
-                                    confirmaSenha.setText(null);
-                                    voltarSemView();
-                                    break;
-                                }
-                            }
+    public void enviar(View v){
+        String strEmail = email.getText().toString();
+        String strSenha = senha.getText().toString();
+        String strConfirmarSenha = confirmarSenha.getText().toString();
+        if (!TextUtils.isEmpty(strEmail) && !TextUtils.isEmpty(strSenha) && !TextUtils.isEmpty(strConfirmarSenha)){
+            if (strSenha.equals(strConfirmarSenha)) {
+                auth.createUserWithEmailAndPassword(strEmail, strSenha).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            voltarSemView();
+                        } else {
+                            String error = task.getException().getMessage();
+                            toast(error);
                         }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error){}
-                    }); // Acaba aqui
-
-                } else{
-                    toast("Preencha apenas os 11 dígitos do seu CPF.");
-                    cpf.setText(null);
-                }
-            } else{
-                toast("Confirmação de senha incorreta.");
+                    }
+                });
+            } else {
                 senha.setText(null);
-                confirmaSenha.setText(null);
+                confirmarSenha.setText(null);
+                toast("As senhas digitadas não coincidem!");
             }
-        } else{
-            toast("Preencha todos os campos.");
+        }
+        else{
+            toast("Preencha todos os campos!");
         }
     }
+
     public void esconderTeclado(View editText) { // esconde o teclado ao clicar fora do cpf
         InputMethodManager imm = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
-    public void voltarSemView(){
-        Intent main = new Intent(this, MainActivity.class);
-        startActivity(main);
+
+    public void voltar(View v){
+        finish();
+        Intent screen = new Intent(this, MainActivity.class);
+        startActivity(screen);
     }
+
+    public void voltarSemView(){ // esse método só serve pra puxar ali no emailVerificacao pq o outro nao puxa por conta do View
+        finish();
+        Intent screen = new Intent(this, MainActivity.class);
+        startActivity(screen);
+    }
+
     public void toast(String msg){ // método criado porque o override no método enviarEmail buga o toast
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-    }
-    public void voltar(View v){
-        Intent main = new Intent(this, MainActivity.class);
-        startActivity(main);
     }
 }

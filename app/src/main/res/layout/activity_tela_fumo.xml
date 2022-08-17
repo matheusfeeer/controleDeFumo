@@ -44,44 +44,12 @@
         app:layout_constraintVertical_bias="0.046" />
 
     <TextView
-        android:id="@+id/textLocal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Localização"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNome"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="ID"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.34"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNome"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
         android:id="@+id/textFumo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
-        android:text="Fumo"
+        android:text="CIGARRO"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textColorHint="#000000"
@@ -97,16 +65,17 @@
         android:id="@+id/textTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="2dp"
         android:text="Total: x"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35000002" />
+        app:layout_constraintTop_toBottomOf="@+id/textNome"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/botaoContagem"
@@ -169,32 +138,46 @@
         app:layout_constraintVertical_bias="0.23000002" />
 
     <TextView
-        android:id="@+id/textMotivacional"
+        android:id="@+id/msgSaude"
         android:layout_width="355dp"
         android:layout_height="47dp"
-        android:text="Finge que aqui tem um TEXTO MUITO motivacional"
+        android:text="Você ainda está saudável."
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95" />
+        app:layout_constraintVertical_bias="0.96" />
 
     <TextView
         android:id="@+id/botaoSair"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="deslogar"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="30dp"
+        android:onClick="sair"
         android:text="Sair"
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/btFrente"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.77"
-        app:layout_constraintStart_toEndOf="@+id/textId"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.060000002" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textNome"
+        app:layout_constraintTop_toTopOf="@+id/textNome"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="181dp"
+        android:layout_height="295dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fotoCigarro"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/voce_brocha" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
